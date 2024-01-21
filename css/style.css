@@ -114,7 +114,7 @@ figure img {
   width: 100%;
 }
 figure {
-  width: clamp(0px, 100%, 800px);
+  width: clamp(0px, 100%, 900px);
   margin-inline: 0px;
 }
 img {
