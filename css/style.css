@@ -110,6 +110,7 @@ main > p {
   padding-inline: 10px;
   padding-top: 15px;
   padding-bottom: 15px;
+  background: white;;
 }
 h1 {
   border: solid black 1px dashed;
