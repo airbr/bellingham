@@ -84,14 +84,8 @@ textarea {
    Author's custom styles
    ========================================================================== */
 
-:root {
-  font-family: Inter, sans-serif;
-  font-feature-settings: 'liga' 1, 'calt' 1; /* fix for Chrome */
-}
-@supports (font-variation-settings: normal) {
-  :root { font-family: InterVariable, sans-serif; }
-}
 body {
+  font-family: system-ui;
   text-align: center;
   background-color: #e5d9c1;
   color: #231F20;
@@ -110,7 +104,7 @@ main > p {
   padding-inline: 10px;
   padding-top: 15px;
   padding-bottom: 15px;
-  background: white;;
+  background: white;
 }
 h1 {
   border: solid black 1px dashed;
