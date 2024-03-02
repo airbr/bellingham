@@ -86,7 +86,7 @@ textarea {
 
 body {
   font-family: system-ui;
-  text-align: center;
+  /* text-align: center; */
   background-color: #e5d9c1;
   color: #231F20;
   margin: 0px;
@@ -107,14 +107,14 @@ main > p {
   background: white;
 }
 h1 {
-  border: solid black 1px dashed;
+  font-size: 2em;
 }
 figure img {
   border-radius: 8px;
   width: 100%;
 }
 figure {
-  width: clamp(0px, 100%, 900px);
+  width: clamp(0px, 100%, 1000px);
   margin-inline: 0px;
 }
 img {
