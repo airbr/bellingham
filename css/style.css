@@ -85,12 +85,14 @@ textarea {
    ========================================================================== */
 
 body {
-  font-family: system-ui;
+  font-family: -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, Adwaita Sans, Cantarell, Ubuntu, roboto, noto, helvetica, arial, sans-serif;
   /* text-align: center; */
-  background-color: #e5d9c1;
   color: #231F20;
   margin: 0px;
+  background-color: #e5d9c1;
+
 }
+
 main {
   display: flex;
   justify-content: center;
