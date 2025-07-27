@@ -23,39 +23,35 @@
 
 <body>
   <main>
-  <nav><h1>Bellingham Bay - <strong>My home.</strong> </h1></nav>
+  <section class="loupe">
+  <nav><h1>Bellingham Bay - <strong>My home. A visual description.</strong> </h1></nav>
   <figure>
+    <image-loupe data-label="Image Zoom: use your pointer or arrow keys to move the loupe">
     <img src="img/Bellingham_Bay.jpeg" fetchpriority="high" 
     width="1536" height="1092" 
     srcset="img/Bellingham_Bay-sm.jpeg 750w, img/Bellingham_Bay-med.jpeg 1024w, img/Bellingham_Bay.jpeg 1500w"  
     alt="U.S. Coast Survey A.D. Bache Supdt. Reconnaissance of Bellingham Bay, Washington Ter. By the Hydrographic party under the command of Lieut. Comdg. J. Alden U.S.N. Asst. 1856. U.S. Coast Survey Office. David Rumsey Map Collection, David Rumsey Map Center, Stanford Libraries."
     sizes="100vw"
     >
+    </image-loupe>
     <figcaption>Bellingham Bay, U.S. Coast Guard Survey map from 1856. I live on the right side of this map today, overlooking the bay.</figcaption>
   </figure>
-  <p>An amazing place where I have produced some of my best work. I live in a seaside town, and I have a seaside view!</p>
-
+  </section>
+  <h2>An amazing place where I have produced some of my best work. I live in a seaside town, and I have a seaside view!</h2>
   <figure>
     <img src="img/view_of_Bellingham.jpg" width="4080" height="3072" sizes="100vw" srcset="img/view_of_Bellingham-sm.jpg 750w, img/view_of_Bellingham-med.jpg 1024w, img/view_of_Bellingham.jpg 1500w" alt="Mountains behind Bellingham Washington">
     <figcaption>My view</figcaption>
   </figure>
-
   <p><strong>You can see the Canadian Cascades on a good day!</strong> It is almost as if the mountains are tearing the sky from the earth on the horizon, they are magnificent</p>
-
   <figure>
     <a href="https://www.google.com/maps/@48.7262531,-122.5415513,12.74z?entry=ttu"><img src="img/Bellingham_Bay_google.png" alt="A google maps screenshot of the map of Bellingham Bay"></a>
     <figcaption>Google Maps view of the Bay from 2024</figcaption>
   </figure>
-  <p><a href="https://www.google.com/maps/@48.7262531,-122.5415513,12.74z?entry=ttu"><strong>Link to Google Maps of the Bay!</strong></a></p>
-
+  <h3><a href="https://www.google.com/maps/@48.7262531,-122.5415513,12.74z?entry=ttu"><strong>Link to Google Maps of the Bay!</strong></a></h3>
   <figure>
     <img src="img/Flag_of_Bellingham_Washington.svg" alt="The Flag of Bellingham Washington">
     <figcaption><a href="https://en.wikipedia.org/wiki/Flag_of_Bellingham,_Washington">Our city flag</a></figcaption>
   </figure>
-    <!-- <figure>
-    <img src="img/railroad-lake-side.jpg" width="2993" height="3991" sizes="100vw" srcset="img/railroad-lake-side-sm.jpg 750w, img/railroad-lake-side-med.jpg 1024w, img/railroad-lake-side.jpg 1500w" loading="lazy" alt="A train line next to a lake">
-    <figcaption>A train runs nearby a beautiful lake in the area, very PNW</figcaption>
-  </figure> -->
 </main>
 <section class="text-center">
   <h2>I love the ocean air, the view of mountains, I love Bellingham.</h2>
@@ -64,5 +60,139 @@
   <a href="https://github.com/airbr/bellingham"><p>code for this little website about a great city</p></a>
 </footer>
 </body>
+
+    <script type="module">
+        /*
+image-loupe web component
+*/
+class ImageLoupe extends HTMLElement {
+    connectedCallback(){
+        this.img = this.children[0];
+        this.loupe = document.createElement('div');
+        this.loupeImg = this.img.cloneNode();
+        this.loupe.className = 'loupe';
+        this.loupeImg.setAttribute('sizes', '200vw');
+        this.loupeImg.setAttribute('alt', '');
+        this.hideLoupe();
+        this.loupe.append(this.loupeImg);
+        this.append(this.loupe);
+        this.tabIndex = '0';
+        this.role = 'figure';
+        this.ariaLabel = this.dataset.label;
+        delete this.dataset.label;
+        this.pointerX = 0;
+        this.pointerY = 0;
+        this.bindEvents();
+    }
+    showLoupe(){
+        this.loupe.classList.remove('loupe-hide');
+    }
+    hideLoupe(){
+        this.loupe.classList.add('loupe-hide');
+    }
+    bindEvents(){
+        this.addEventListener('pointerenter', e => { this.handlePointerenter(e); });
+        this.addEventListener('pointermove', e => { this.handlePointermove(e); });
+        this.addEventListener('pointerleave', e => { this.handlePointerleave(e); });
+        this.addEventListener('touchstart', this.preventDefault, {passive: false});
+        this.addEventListener('focus', () => { this.showLoupe(); });
+        this.addEventListener('keydown', e => { this.handleKeydown(e); });
+        this.addEventListener('blur', () => { this.hideLoupe(); });
+    }
+    handlePointerenter(e){
+        this.classList.add('pointerenter');
+        this.showLoupe();
+    }
+    correctX(value) {
+        const rect = this.getBoundingClientRect();
+        return Math.min(rect.width, Math.max(0, value));
+    }
+    correctY(value) {
+        const rect = this.getBoundingClientRect();
+        return Math.min(rect.height, Math.max(0, value));
+    }
+    handleKeydown(e){
+        if(e.which === 37){
+            e.preventDefault();
+            this.correctX(this.pointerX-=30);
+        }
+        if(e.which === 38){
+            e.preventDefault();0
+            this.correctY(this.pointerY-=30);
+        }
+        if(e.which === 39){
+            e.preventDefault();
+            this.correctX(this.pointerX+=30);
+        }
+        if(e.which === 40){
+            e.preventDefault();
+            this.correctY(this.pointerY+=30);
+        }
+        this.positionLoupe(true)
+    }
+    handlePointermove(e){
+        const rect = this.getBoundingClientRect();
+        this.pointerX = e.clientX - rect.left;
+        this.pointerY = e.clientY - rect.top;
+        this.positionLoupe();
+    }
+    positionLoupe(){
+        const rect = this.getBoundingClientRect();
+        const percentX = this.pointerX / rect.width * 100;
+        const percentY = this.pointerY / rect.height * 100;
+        this.loupe.scrollLeft = percentX / 100 * this.loupeImg.offsetWidth - this.loupe.offsetWidth/2;
+        this.loupe.scrollTop = percentY / 100 * this.loupeImg.offsetHeight - this.loupe.offsetHeight/2;
+        this.loupe.style.insetInlineStart = this.pointerX + 'px';
+        this.loupe.style.insetBlockStart = this.pointerY + 'px';
+    }
+    handlePointerleave(e){
+        this.classList.remove('pointerenter');
+        this.hideLoupe();
+    }
+}
+customElements.define('image-loupe', ImageLoupe);
+    </script>
+
+
+    <style>
+        image-loupe {
+    overflow: visible;
+    /* max-inline-size: 30em; */
+    display: block;
+    margin: 2em auto;
+    position: relative;
+    container-type: inline-size;
+    img {
+        max-width: 100%;
+    }
+    .loupe {
+        position: absolute;
+        container-type: inline-size;
+        inline-size: 50cqw;
+        block-size: 50cqw;
+        inset-inline-start: 0;
+        inset-block-start: 0;
+        border-radius: 100%;
+        margin-block-start: -25cqw;
+        margin-inline-start: -25cqw;
+        border: 2px solid #fff;
+        box-shadow: 0 0 10px rgba(0,0,0,.8);
+        overflow: hidden;
+        pointer-events: none;
+        transition: transform .3s ease-in-out, opacity .3s ease-in-out;
+        img {
+            inline-size: 500cqw;
+            max-width: none;
+        }
+    }
+    .loupe-hide {
+        opacity: 0;
+        transform: scale(.8);
+    }
+    &:not(.pointerenter):focus .loupe {
+        transition: all .1s linear;
+    }
+}
+    </style>
 
 </html>
