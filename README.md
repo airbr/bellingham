@@ -1,1 +1,1 @@
-# [Bellingham Bay](bellingham.netlify.app)
+# [Bellingham Bay](https://bellingham.netlify.app)
