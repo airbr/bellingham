@@ -132,6 +132,7 @@ figure {
   margin-inline: 0px;
 }
 figcaption {
+  margin-block: 12px;
  padding-inline: 12px;
 }
 img {
